@@ -1,0 +1,5 @@
+@media screen and (max-width: 920px) {
+  .mainCont {
+    width: 100vw;
+  }
+}

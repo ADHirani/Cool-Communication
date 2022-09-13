@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Arvo:ital@0;1&family=Great+Vibes&family=Handlee&family=Josefin+Sans:ital,wght@0,500;1,400&family=Lora:ital@0;1&family=Merienda+One&family=Poppins:wght@500;700&family=Titillium+Web:ital@0;1&display=swap");
+
+/* * {
+  margin: 0%;
+  height: 0%;
+  box-sizing: border-box;
+} */
+body {
+  background-color: #adefd1ff;
+  color: #00203fff;
+  overflow: hidden;
+}
+/* font-family: 'Arvo', serif;
+font-family: 'Handlee', cursive;
+font-family: 'Josefin Sans', sans-serif;
+font-family: 'Lora', serif;
+font-family: 'Merienda One', cursive;
+font-family: 'Poppins', sans-serif;
+font-family: 'Great Vibes', cursive;
+font-family: 'Titillium Web', sans-serif; */
