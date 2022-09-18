@@ -1,6 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
+import Avatar from "./components/Avatar";
+import Chat from "./components/Chat";
 import { Home } from "./components/Home";
 import Login from "./components/Login";
 import { Register } from "./components/Register";
@@ -11,7 +13,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/setavatar" element={<Avatar />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </AppContainer>
   );

@@ -73,7 +73,8 @@ const Register = () => {
           "cool-communication",
           JSON.stringify(data.newUser)
         );
-        navigate("/login");
+
+        navigate("/setavatar");
       } else if (data.status === false) {
         toast.error(data.msg, toastOption);
       }

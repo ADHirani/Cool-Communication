@@ -46,7 +46,12 @@ const Login = () => {
         .then((response) => response);
 
       if (data.status === true) {
-        navigate("/");
+        localStorage.setItem(
+          "cool-communication",
+          JSON.stringify(data.userData)
+        );
+
+        navigate("/chat");
       } else {
         toast.error(data.msg, toastOption);
       }

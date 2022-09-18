@@ -16,7 +16,7 @@ const loginUser = async (req, res) => {
       return res.json({ msg: "Wrong password or Email", status: false });
     } else {
       return res.json({
-        msg: "hello",
+        msg: "Thanks for login with us.",
         status: true,
         userData,
       });
