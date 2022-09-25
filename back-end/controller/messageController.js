@@ -1,4 +1,11 @@
 const Message = require("../model/messageModel");
+const dummyMessage = {
+  _id: "abcd1234",
+  message: "you are ready for communication.",
+  sender: {
+    _id: "abcd",
+  },
+};
 const getMessages = async (req, res, next) => {
   try {
     const { sender, reciver } = await req.body;
@@ -15,6 +22,7 @@ const getMessages = async (req, res, next) => {
     });
     // console.log(allMessages);
     if (allMessages.length !== 0) return res.json(allMessages);
+    else return res.json([]);
   } catch (err) {
     next(err);
   }

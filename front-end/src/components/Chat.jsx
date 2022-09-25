@@ -1,39 +1,44 @@
 import { Box } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useState } from "react";
-import { allChatRoute, getMessages } from "../utils/APIRoute";
+import { allChatRoute, getMessagesRoute, host } from "../utils/APIRoute";
 import Contact from "./Contact";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Welcome from "./Welcome";
 import MessageContainer from "./MessageContainer";
-import InputChatContainer from "./InputChatContainer";
-
+import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 const Chat = () => {
   const navigate = useNavigate();
+  const socket = io(host);
+  const [isselectedChat, setisSelectedChat] = useState(false);
+  const [selectedChat, setselectedChat] = useState(); // Selected user from left side
+  const [allChat, setallChat] = useState([]); // All users left side
+  const [chatIndex, setchatIndex] = useState(0);
 
-  const [selectedChat, setselectedChat] = useState(undefined);
-  const [allChat, setallChat] = useState([]);
+  const currentUser = JSON.parse(localStorage.getItem("cool-communication"));
 
-  // call user contacts starts
-
-  const userData = JSON.parse(localStorage.getItem("cool-communication"));
+  // call all user contacts starts
 
   useEffect(() => {
-    const getAllChat = async () => {
-      const { data } = await axios.post(allChatRoute, {
-        userId: userData._id,
-      });
-      setallChat(data);
-    };
-
     getAllChat();
   }, []);
 
-  // call user contacts starts
+  const getAllChat = async () => {
+    if (!currentUser || currentUser === undefined) {
+      navigate("/login");
+    } else {
+      const { data } = await axios.post(allChatRoute, {
+        userId: currentUser._id,
+      });
+      setallChat(data);
+    }
+  };
 
-  const [chatIndex, setchatIndex] = useState(0);
-  const [isselectedChat, setisSelectedChat] = useState(false);
+  // call user contacts ends
+  // call all messages starts
+
+  // call all mesages ends
 
   const chatClicked = (i, chat) => {
     setisSelectedChat(true);
@@ -73,7 +78,7 @@ const Chat = () => {
         >
           <Contact
             allChat={allChat}
-            currentUser={userData}
+            currentUser={currentUser}
             chatIndex={chatIndex}
             isselectedChat={isselectedChat}
             chatClicked={chatClicked}
@@ -90,14 +95,15 @@ const Chat = () => {
           justifyContent="space-between"
         >
           {selectedChat === undefined ? (
-            <Welcome />
+            <Welcome currentUser={currentUser} />
           ) : (
             <MessageContainer
               selectedChat={selectedChat}
-              currentUser={userData}
+              currentUser={currentUser}
+              socket={socket}
             />
           )}
-          <Box>
+          {/* <Box>
             {selectedChat === undefined ? (
               ""
             ) : (
@@ -106,7 +112,7 @@ const Chat = () => {
                 currentUser={userData}
               />
             )}
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </Box>

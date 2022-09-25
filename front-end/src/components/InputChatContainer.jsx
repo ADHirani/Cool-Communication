@@ -1,16 +1,17 @@
-import { Box, Button, FormControl, Input } from "@chakra-ui/react";
+import { Box, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { IoSend } from "react-icons/io5";
 import { BsFillEmojiSmileFill } from "react-icons/bs";
 import EmojiPicker from "emoji-picker-react";
 import axios from "axios";
-import { sendMessage } from "../utils/APIRoute";
+import { sendMessageRoute } from "../utils/APIRoute";
 import { toast, ToastContainer } from "react-toastify";
 import { toastOption } from "./Register";
-const InputChatContainer = ({ selectedChat, currentUser }) => {
+
+const InputChatContainer = ({ selectedChat, currentUser, socket }) => {
   const [showEmojiPicker, setshowEmojiPicker] = useState(false);
-  const [Msg, setMsg] = useState("");
+  const [message, setMessage] = useState(""); // Messeges which is wrrited by user
 
   const emojiPickerHideShow = () => {
     setshowEmojiPicker(!showEmojiPicker);
@@ -19,25 +20,33 @@ const InputChatContainer = ({ selectedChat, currentUser }) => {
   const emojiClicked = (e, emoji) => {
     let message = "";
     message += emoji.emoji;
-    setMsg(Msg + message);
+    setMessage(message + message);
   };
 
   const handleSendMessage = async () => {
-    if (Msg.length === 0) {
+    if (message.length === 0) {
       toast.info("Enter message please.", toastOption);
     } else {
       // calling api here starts
-      await axios.post(sendMessage, {
-        message: Msg,
+      await axios.post(sendMessageRoute, {
+        message: message,
         sender: currentUser,
         reciver: selectedChat,
       });
+
+      socket.emit("send-msg", {
+        message: message,
+        sender: currentUser,
+        reciver: selectedChat,
+      });
+
       // calling api here ends
-      setMsg("");
     }
+    setMessage("");
   };
+
   const enterKeyPressed = (e) => {
-    if (e.code === "Enter") {
+    if (e.code === "Enter" || e.code === "NumpadEnter") {
       handleSendMessage();
     }
   };
@@ -73,8 +82,8 @@ const InputChatContainer = ({ selectedChat, currentUser }) => {
           className="chat-input"
           width="70%"
           height="80%"
-          value={Msg}
-          onChange={(e) => setMsg(e.target.value)}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           onKeyDown={enterKeyPressed}
         ></Input>
         <Box

@@ -1,29 +1,46 @@
 import { Box, Img, Text } from "@chakra-ui/react";
 import axios from "axios";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getMessages } from "../utils/APIRoute";
+import { getMessagesRoute } from "../utils/APIRoute";
+import InputChatContainer from "./InputChatContainer";
 
-const MessageContainer = ({ selectedChat, currentUser }) => {
-  const [messages, setmessages] = useState("");
+const MessageContainer = ({ selectedChat, currentUser, socket }) => {
+  const [arrivalMsgForReciver, setarrivalMsgForReciver] = useState();
+  const [arrivalMsgForSender, setarrivalMsgForSender] = useState();
 
-  useEffect(() => {
-    getAllMessages();
-  }, []);
-  const getAllMessages = async () => {
-    const { data } = await axios.post(getMessages, {
+  const [messages, setmessages] = useState([]);
+
+  socket.on("recive-msg-reciver", (data) => {
+    setarrivalMsgForReciver(data);
+  });
+  socket.on("recive-msg-sender", (data) => {
+    setarrivalMsgForSender(data);
+  });
+
+  const getAllChatFunc = async () => {
+    const { data } = await axios.post(getMessagesRoute, {
       sender: currentUser,
       reciver: selectedChat,
     });
-    if (data) {
-      setmessages(data);
-    } else {
-      setmessages("");
-    }
+    setmessages([...data]);
   };
-  // console.log(messages);
 
+  useEffect(() => {
+    setarrivalMsgForReciver();
+    getAllChatFunc();
+  }, [arrivalMsgForReciver]);
+
+  useEffect(() => {
+    setarrivalMsgForSender();
+    getAllChatFunc();
+  }, [arrivalMsgForSender]);
+
+  useEffect(() => {
+    setarrivalMsgForReciver();
+    setarrivalMsgForSender();
+    getAllChatFunc();
+  }, [selectedChat]);
   return (
     <>
       <Box display="flex" justifyContent="center">
@@ -53,6 +70,11 @@ const MessageContainer = ({ selectedChat, currentUser }) => {
             })}
         </MsgContainer>
       </Box>
+      <InputChatContainer
+        selectedChat={selectedChat}
+        currentUser={currentUser}
+        socket={socket}
+      />
     </>
   );
 };

@@ -1,5 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Arvo:ital@0;1&family=Great+Vibes&family=Handlee&family=Josefin+Sans:ital,wght@0,500;1,400&family=Just+Another+Hand&family=Lora:ital@0;1&family=Merienda+One&family=Poppins:wght@500;700&family=Titillium+Web:ital@0;1&display=swap");
+
 @media screen and (max-width: 920px) {
   .mainCont {
     width: 100vw;
   }
 }
+/* 
+font-family: 'Arvo', serif;
+font-family: 'Great Vibes', cursive;
+font-family: 'Handlee', cursive;
+font-family: 'Josefin Sans', sans-serif;
+font-family: 'Just Another Hand', cursive;
+font-family: 'Lora', serif;
+font-family: 'Merienda One', cursive;
+font-family: 'Poppins', sans-serif;
+font-family: 'Titillium Web', sans-serif; */
