@@ -7,7 +7,7 @@ This is a MERN stack chat application. currently this is under construction.
 
 
 # To run this project on your computer:
-1, Download pr Clone repository.
+1, Download or Clone repository.
 
 2, npm install to download all dependencys.
 
